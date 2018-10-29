@@ -6,10 +6,11 @@ import android.arch.persistence.room.RoomDatabase;
 
 import com.peak.balance.base.BaseApp;
 import com.peak.balance.db.bean.Expend;
+import com.peak.balance.db.bean.Income;
 import com.peak.balance.db.dao.ExpendDao;
 
 
-@Database(entities = Expend.class, version = 1)
+@Database(entities = {Expend.class, Income.class}, version = 1)
 public abstract class BalanceDatabase extends RoomDatabase {
 
     private static BalanceDatabase sInstance;

@@ -8,23 +8,24 @@ import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
 import com.peak.balance.db.bean.Expend;
+import com.peak.balance.db.bean.Income;
 
 import java.util.List;
 
 @Dao
-public interface ExpendDao {
+public interface IncomeDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertRecord(Expend... expends);
+    void insertRecord(Income... incomes);
 
     @Delete
-    void deleteRecord(Expend expend);
+    void deleteRecord(Income income);
 
     @Update
-    void update(Expend expend);
+    void update(Income income);
 
-    @Query("select * from tb_expend")
-    List<Expend> getAll();
+    @Query("select * from tb_income")
+    List<Income> getAll();
 
 
 }
