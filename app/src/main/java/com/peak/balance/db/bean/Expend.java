@@ -63,4 +63,15 @@ public class Expend {
     public void setExtras(String extras) {
         this.extras = extras;
     }
+
+    @Override
+    public String toString() {
+        return "Expend{" +
+                "id=" + id +
+                ", date=" + date +
+                ", number=" + number +
+                ", category='" + category + '\'' +
+                ", extras='" + extras + '\'' +
+                '}';
+    }
 }
