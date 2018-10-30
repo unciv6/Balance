@@ -4,11 +4,13 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
+import io.reactivex.annotations.Nullable;
+
 
 @Entity(tableName = "tb_expend")
 public class Expend {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private long id;
 
     @ColumnInfo(name = "date")
@@ -23,6 +25,12 @@ public class Expend {
     @ColumnInfo(name = "extras")
     private String extras;//备注
 
+    public Expend(float number, @Nullable String category, @Nullable String extras) {
+        this.date = System.currentTimeMillis();
+        this.number = number;
+        this.category = category;
+        this.extras = extras;
+    }
 
     public long getId() {
         return id;
