@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void run() {
             super.run();
-            BalanceDatabase.getInstance().getExpendDao().insertRecord(new Expend());
+            BalanceDatabase.getInstance().getExpendDao().insertRecord(new Expend(), new Expend());
 
             Log.i("TEST", BalanceDatabase.getInstance().getExpendDao().getAll().toString());
         }
