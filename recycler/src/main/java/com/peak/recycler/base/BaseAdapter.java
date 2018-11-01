@@ -10,13 +10,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 public abstract class BaseAdapter<Data> extends RecyclerView.Adapter<BaseHolder> {
 
     private final ArrayList<Data> mDataList;
     private Context mContext;
     private LayoutInflater mInflater;
+
+    public BaseAdapter() {
+        mDataList = new ArrayList<>();
+    }
 
     public BaseAdapter(ArrayList<Data> dataList) {
         mDataList = dataList;
@@ -35,8 +38,8 @@ public abstract class BaseAdapter<Data> extends RecyclerView.Adapter<BaseHolder>
     }
 
     @Override
-    public void onBindViewHolder(@NonNull BaseHolder baseHolder, int i) {
-        bindViewData(baseHolder, i, getItemViewType(i));
+    public void onBindViewHolder(@NonNull BaseHolder baseHolder, int position) {
+        bindViewData(baseHolder, position, getData(position), getItemViewType(position));
     }
 
     @Override
@@ -46,7 +49,7 @@ public abstract class BaseAdapter<Data> extends RecyclerView.Adapter<BaseHolder>
 
     protected abstract BaseHolder createBaseHolder(LayoutInflater inflater, ViewGroup parent, int viewType);
 
-    protected abstract void bindViewData(BaseHolder baseHolder, int position, int viewType);
+    protected abstract void bindViewData(BaseHolder baseHolder, int position, Data data, int viewType);
 
     @Override
     public abstract int getItemViewType(int position);
@@ -116,6 +119,10 @@ public abstract class BaseAdapter<Data> extends RecyclerView.Adapter<BaseHolder>
 
     public boolean isEmpty() {
         return getItemCount() == 0;
+    }
+
+    public Data getData(int position) {
+        return mDataList.get(position);
     }
 
     public int indexOf(Data data) {

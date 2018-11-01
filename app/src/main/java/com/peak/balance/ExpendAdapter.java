@@ -4,20 +4,8 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
-public class ExpendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    @NonNull
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return null;
-    }
+import com.peak.recycler.strategy.StrategyAdapter;
 
-    @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+public class ExpendAdapter extends StrategyAdapter {
 
-    }
-
-    @Override
-    public int getItemCount() {
-        return 0;
-    }
 }
