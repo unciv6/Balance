@@ -31,7 +31,7 @@ public class StrategyAdapter extends BaseAdapter<Object> {
 
     @Override
     protected void bindViewData(BaseHolder baseHolder, int position, Object data, int viewType) {
-        mStrategies.get(viewType).bindData(baseHolder,data,position);
+        mStrategies.get(viewType).bindData(baseHolder, data, position);
     }
 
     @Override
@@ -41,8 +41,7 @@ public class StrategyAdapter extends BaseAdapter<Object> {
         if (idx >= 0) {
             return idx;
         }
-        throw new IllegalStateException("没有可以处理的item策略" + object);
-
+        throw new IllegalStateException("No strategy to deal with: " + object);
     }
 
     public int findItemViewType(Object obj) {
