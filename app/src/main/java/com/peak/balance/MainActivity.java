@@ -2,6 +2,7 @@ package com.peak.balance;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -16,8 +17,6 @@ import com.peak.balance.db.bean.Expend;
 
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -63,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
     private void initWidget() {
         LinearLayoutManager manager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(manager);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
     }
 
@@ -83,11 +83,13 @@ public class MainActivity extends AppCompatActivity {
         if (amount.length() == 0) {
             return;
         }
-
+        mRecyclerView.getLayoutManager().scrollToPosition(0);
         Observable.create(new ObservableOnSubscribe<Boolean>() {
             @Override
             public void subscribe(ObservableEmitter<Boolean> emitter) throws Exception {
+
                 Expend expend = new Expend(Float.valueOf(amount), category, extras);
+                mAdapter.addByIndex(0, expend);
                 BalanceDatabase.getInstance().getExpendDao().insertRecord(expend);
                 emitter.onNext(true);
                 emitter.onComplete();
@@ -105,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onNext(Boolean aBoolean) {
                         Log.i(TAG, "onNext: 插入成功");
                         Toast.makeText(getApplicationContext(), "插入成功", Toast.LENGTH_SHORT).show();
+
                     }
 
                     @Override
@@ -138,17 +141,7 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onNext(List<Expend> expends) {
-                        List list = new ArrayList();
-                        list.add("1");
-                        list.add("2");
-                        list.add("3");
-                        list.add("4");
-                        list.add("5");
-                        list.add("6");
-                        list.addAll(expends);
-                        Collections.shuffle(list);
-
-                        mAdapter.add(list);
+                        mAdapter.add(expends);
                         Log.i(TAG, "onNext: 查找数据成功");
                     }
 
@@ -159,7 +152,6 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onComplete() {
-
                     }
                 });
 

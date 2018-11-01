@@ -61,6 +61,11 @@ public abstract class BaseAdapter<Data> extends RecyclerView.Adapter<BaseHolder>
         }
     }
 
+    public void addByIndex(int index, Data data) {
+        mDataList.add(index, data);
+        notifyItemInserted(index);
+    }
+
     public void add(Collection<? extends Data> items) {
         if (mDataList == items) {
             //noinspection unchecked
