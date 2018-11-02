@@ -1,6 +1,7 @@
 package com.peak.recycler.strategy;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.peak.recycler.base.BaseAdapter;
@@ -12,6 +13,8 @@ import java.util.List;
 public class StrategyAdapter extends BaseAdapter<Object> {
 
     private List<? extends AbsStrategy> mStrategies;
+    private long mLastClickTime;
+    private static final long CLICK_INTERVAL = 200;
 
 
     public StrategyAdapter setStrategies(List<? extends AbsStrategy> strategies) {
@@ -53,12 +56,38 @@ public class StrategyAdapter extends BaseAdapter<Object> {
         return -1;
     }
 
+    @Override
+    protected void onItemClick(View view, int position) {
+        super.onItemClick(view, position);
+        int viewType = getItemViewType(position);
+        long currentTimeMillis = System.currentTimeMillis();
+        if (currentTimeMillis > mLastClickTime + CLICK_INTERVAL) {
+            AbsStrategy strategy = mStrategies.get(viewType);
+            Object data = getData(position);
+            strategy.onClicked(view, position, data);
+            mLastClickTime = currentTimeMillis;
+        }
+    }
+
+    @Override
+    protected boolean onItemLongClick(View view, int position) {
+        int viewType = getItemViewType(position);
+        AbsStrategy strategy = mStrategies.get(viewType);
+        Object data = getData(position);
+        strategy.onLongClicked(view, position, data);
+        return super.onItemLongClick(view, position);
+
+    }
 
     public static abstract class AbsStrategy<T> {
 
         public abstract BaseHolder createViewHolder(LayoutInflater inflater, ViewGroup parent);
 
         public abstract void bindData(BaseHolder holder, T data, int position);
+
+        public abstract void onClicked(View view, int position, T t);
+
+        public abstract void onLongClicked(View view, int position, T t);
 
         public abstract boolean canHandle(Object obj);
     }

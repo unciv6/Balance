@@ -29,4 +29,24 @@ public class BaseHolder<T> extends RecyclerView.ViewHolder {
         return (V) view;
     }
 
+    private boolean mNeedClick = true;
+    private boolean mNeedLongClick = true;
+
+    public boolean isNeedClick() {
+        return mNeedClick;
+    }
+
+    public BaseHolder setNeedClick(boolean needClick) {
+        mNeedClick = needClick;
+        return this;
+    }
+
+    public boolean isNeedLongClick() {
+        return mNeedLongClick;
+    }
+
+    public BaseHolder setNeedLongClick(boolean needLongClick) {
+        mNeedLongClick = needLongClick;
+        return this;
+    }
 }

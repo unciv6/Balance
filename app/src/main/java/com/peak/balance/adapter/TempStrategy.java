@@ -24,6 +24,16 @@ public class TempStrategy extends StrategyAdapter.AbsStrategy<String> {
     }
 
     @Override
+    public void onClicked(View view, int position, String s) {
+
+    }
+
+    @Override
+    public void onLongClicked(View view, int position, String s) {
+
+    }
+
+    @Override
     public boolean canHandle(Object obj) {
         return obj instanceof String;
     }

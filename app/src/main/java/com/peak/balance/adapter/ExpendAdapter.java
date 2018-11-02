@@ -8,6 +8,7 @@ import java.util.List;
 
 public class ExpendAdapter extends StrategyAdapter {
 
+    private static final String TAG = "ExpendAdapter";
 
     private List<AbsStrategy> mStrategies;
 

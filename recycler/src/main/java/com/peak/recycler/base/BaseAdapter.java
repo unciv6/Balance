@@ -2,27 +2,36 @@ package com.peak.recycler.base;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 
-public abstract class BaseAdapter<Data> extends RecyclerView.Adapter<BaseHolder> {
+public abstract class BaseAdapter<Data> extends RecyclerView.Adapter<BaseHolder> implements View.OnClickListener, View.OnLongClickListener {
 
     private final ArrayList<Data> mDataList;
     private Context mContext;
     private LayoutInflater mInflater;
+    private RecyclerView mRecyclerView;
+    private OnItemClickListener onItemClickListener;
+    private OnItemLongClickListener onItemLongClickListener;
+
 
     public BaseAdapter() {
         mDataList = new ArrayList<>();
     }
 
-    public BaseAdapter(ArrayList<Data> dataList) {
-        mDataList = dataList;
+    @Override
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        mRecyclerView = recyclerView;
     }
 
     @NonNull
@@ -32,8 +41,18 @@ public abstract class BaseAdapter<Data> extends RecyclerView.Adapter<BaseHolder>
             mContext = parent.getContext();
             mInflater = LayoutInflater.from(mContext);
         }
-
         BaseHolder holder = createBaseHolder(mInflater, parent, viewType);
+        if (!(holder.itemView instanceof AdapterView)
+                && !(holder.itemView instanceof RecyclerView)
+                && !(holder.itemView instanceof ViewPager)) {
+            holder.itemView.setTag(holder);
+            if (holder.isNeedClick()) {
+                holder.itemView.setOnClickListener(this);
+            }
+            if (holder.isNeedLongClick()) {
+                holder.itemView.setOnLongClickListener(this);
+            }
+        }
         return holder;
     }
 
@@ -53,6 +72,57 @@ public abstract class BaseAdapter<Data> extends RecyclerView.Adapter<BaseHolder>
 
     @Override
     public abstract int getItemViewType(int position);
+
+    @Override
+    public void onClick(View v) {
+        Object object = v.getTag();
+        if (object instanceof RecyclerView.ViewHolder) {
+            RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder) object;
+            int pos = viewHolder.getAdapterPosition();
+            if (pos >= 0) {
+                onItemClick(v, pos);
+            }
+        }
+    }
+
+    @Override
+    public boolean onLongClick(View v) {
+        Object tag = v.getTag();
+        if (tag instanceof RecyclerView.ViewHolder) {
+            RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder) tag;
+            int pos = viewHolder.getAdapterPosition();
+            if (pos >= 0) {
+                return onItemLongClick(v, pos);
+            }
+        }
+        return false;
+    }
+
+    protected void onItemClick(View view, int position) {
+        if (onItemClickListener != null) {
+            onItemClickListener.onItemClick(mRecyclerView, view, position);
+        }
+    }
+
+    protected boolean onItemLongClick(View view, int position) {
+        return onItemLongClickListener != null && onItemLongClickListener.onItemLongClick(mRecyclerView, view, position);
+    }
+
+    public OnItemClickListener getOnItemClickListener() {
+        return onItemClickListener;
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
+
+    public OnItemLongClickListener getOnItemLongClickListener() {
+        return onItemLongClickListener;
+    }
+
+    public void setOnItemLongClickListener(OnItemLongClickListener onItemLongClickListener) {
+        this.onItemLongClickListener = onItemLongClickListener;
+    }
 
     //数据操作
     public void add(Data... datas) {
@@ -132,6 +202,19 @@ public abstract class BaseAdapter<Data> extends RecyclerView.Adapter<BaseHolder>
 
     public int indexOf(Data data) {
         return mDataList.indexOf(data);
+    }
+
+
+    public interface OnItemClickListener {
+
+        void onItemClick(ViewGroup parent, View v, int adapterPosition);
+
+    }
+
+    public interface OnItemLongClickListener {
+
+        boolean onItemLongClick(ViewGroup parent, View v, int adapterPosition);
+
     }
 
 }
