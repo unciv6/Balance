@@ -6,8 +6,11 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 
@@ -44,11 +47,13 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.number)
     EditText mNumber;
     @BindView(R.id.category)
-    EditText mCategory;
+    Spinner mCategory;
     @BindView(R.id.extra)
     EditText mExtra;
 
     ExpendAdapter mAdapter;
+
+    String cate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +69,18 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(manager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
+        mCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                cate = (getResources().getStringArray(R.array.category))[i];
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
     }
 
     private void initData() {
@@ -77,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
     @OnClick(R.id.button)
     public void addData() {
         final String amount = mNumber.getText().toString().trim();
-        final String category = mCategory.getText().toString().trim();
+        final String category = cate;
         final String extras = mExtra.getText().toString().trim();
 
         if (amount.length() == 0) {

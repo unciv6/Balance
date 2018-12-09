@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--支出类型-->
     <array name="category">
-        <item>吃喝</item>
+        <item>@string/food</item>
+        <item>@string/rent</item>
+        <item>@string/funny</item>
+        <item>@string/study</item>
+        <item>@string/cloth</item>
+        <item>@string/comm</item>
+        <item>@string/lend</item>
+        <item>@string/others</item>
     </array>
 </resources>

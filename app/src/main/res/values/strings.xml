@@ -4,4 +4,15 @@
     <string name="category">类别: </string>
     <string name="extras">备注: </string>
     <string name="add">添加</string>
+
+    <!--支出种类-->
+    <string name="food">饮食</string>
+    <string name="rent">房租</string>
+    <string name="funny">文娱</string>
+    <string name="cloth">服装</string>
+    <string name="study">学习</string>
+    <string name="comm">交际</string>
+    <string name="lend">出借</string>
+    <string name="debet">债务</string>
+    <string name="others">其他</string>
 </resources>
