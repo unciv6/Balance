@@ -7,3 +7,7 @@
 /app/release
 /captures
 .externalNativeBuild
+/app/src/main/gen
+/recycler/src/main/gen
+
+
